@@ -153,8 +153,8 @@ The project is now version controlled and stored on GitHub...
 but the pages are **not** visible! What is going on?
 
 
-Changing GitHub page's source to a publishing branch
-****************************************************
+Rearranging the repository
+**************************
 
 If we think for a moment about a possible root cause of this problem,
 we can quickly notice that we don't have an `index.html` file
@@ -190,6 +190,10 @@ First of all, let's change the branch:
 Now the default configuration will make sure that the output
 generated from the content stored in a private branch `content`
 will be version under `master` branch.
+
+
+Publishing the page
+*******************
 
 Now I should be able to get away with invoking `gh_pages` task 
 but first I have to install `ghp-import` as one of the dependencies:
@@ -253,11 +257,17 @@ get accepted and I have to rearrange the quotation marks to get it working.
     }
 
 After introducing this change, I was able to push the output to `master` branch
-but the page would still show `README.md` instead of the expected pages. I've done some reading...
+but the page would still show `README.md` instead of the expected pages.
 
-# `Github Pages are not published after following the documentation`_
-# `Yes You Can Use GitHub Pages with Python Sphinx`_ - section *Add a .nojekyll file in the /docs directory*
-# `Bypassing Jekyll on GitHub Pages`_
+
+Making sure we're on the same page as GitHub
+********************************************
+
+I've done some reading to understand the problem...
+
+- `Github Pages are not published after following the documentation`_
+- `Yes You Can Use GitHub Pages with Python Sphinx`_ - section *Add a .nojekyll file in the /docs directory*
+- `Bypassing Jekyll on GitHub Pages`_
 
 ... and understood that there might be a problem with the fact that GitHub assumes
 the pages were generated using Ruby/Jekyll and we need to inform the server
