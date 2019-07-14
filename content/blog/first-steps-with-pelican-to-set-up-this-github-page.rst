@@ -262,7 +262,7 @@ but the page would still show `README.md` instead of the expected pages. I've do
 ... and understood that there might be a problem with the fact that GitHub assumes
 the pages were generated using Ruby/Jekyll and we need to inform the server
 that we're running something different. I added `.nojekyll` file in the main folder
-of the project, committed the changes, pushed them to remote repository
+of the project, committed the changes, pushed them to remote repository, executed `gh-pages` task
 and now you can read this article. Cheers!
 
 
