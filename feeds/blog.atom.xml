@@ -184,6 +184,14 @@ get accepted and I have to rearrange the quotation marks to get it working.&lt;/
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;After introducing this change, I was able to push the output to &lt;cite&gt;master&lt;/cite&gt; branch
+but the page would still show &lt;cite&gt;README.md&lt;/cite&gt; instead of the expected pages. I've done some reading...&lt;/p&gt;
+&lt;p&gt;# &lt;a class="reference external" href="https://github.community/t5/GitHub-Pages/Github-Pages-are-not-published-after-following-the-documentation/td-p/18627_"&gt;Github Pages are not published after following the documentation&lt;/a&gt;
+# &lt;a class="reference external" href="https://www.docslikecode.com/articles/github-pages-python-sphinx/"&gt;Yes You Can Use GitHub Pages with Python Sphinx&lt;/a&gt; - section &lt;em&gt;Add a .nojekyll file in the /docs directory&lt;/em&gt;
+# &lt;a class="reference external" href="https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/"&gt;Bypassing Jekyll on GitHub Pages&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;... and understood that there might be a problem with the fact that GitHub assumes
+the pages were generated using Ruby/Jekyll and we need to inform the server
+that we're running something different. I added &lt;cite&gt;.nojekyll&lt;/cite&gt; file in the main folder
+of the project, committed the changes, pushed them to remote repository, executed &lt;cite&gt;gh-pages&lt;/cite&gt; task
 and now you can read this article. Cheers!&lt;/p&gt;
 &lt;/div&gt;
 </content><category term="pelican"></category></entry></feed>
