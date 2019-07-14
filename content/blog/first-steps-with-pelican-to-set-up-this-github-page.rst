@@ -238,6 +238,61 @@ After that, I can publish my work to `gh_pages` branch in Git:
 
     pipenv run inv gh_pages
 
+Nope. Error message: ``No idea what 'gh_pages' is!``
+There is a task in `tasks.py` but it cannot be found. Maybe `invoke`'s can help us?
+
+.. code-block:: shell
+
+    pipenv run invoke
+
+There seems to be `-l` parameter which should understand us what tasks
+are available and how we should call them. After running
+
+.. code-block:: shell
+
+    pipenv run invoke -l
+
+We get this::
+
+    Available tasks:
+
+        build        Build local version of site
+        clean        Remove generated files
+        gh-pages     Publish to GitHub Pages
+        preview      Build production version of site
+        publish      Publish to production via rsync
+        rebuild      `build` with the delete switch
+        regenerate   Automatically regenerate site upon file modification
+        reserve      `build`, then `serve`
+        serve        Serve site at http://localhost:8000/
+
+Do you notice the difference? Underscore magically became a hyphen!
+Let's finish the task for today by invoking the `gh-pages` task!
+
+.. code-block:: shell
+
+    pipenv run inv gh-pages
+
+Since I'm running a Windows 10 machine, the current syntax does not
+get accepted and I have to rearrange the quotation marks to get it working.
+
+.. code-block:: python
+
+    CONFIG = {
+        ...
+        # Before: "'Publish site on {}'"
+        # After: 
+        'commit_message': "'Publish site on {}'".format(datetime.date.today().isoformat()),
+        ...
+    }
+
+After introducing this change, I was able to push the content to `gh_pages` remote branch.
+The last thing is to change the default branch to be used by GitHub to publish the site
+as mentioned before on `Enabling GitHub Pages to publish your site from master or gh-pages`_.
+
+.. note::
+
+    I had to wait for `gh_pages` branch to become visible before being able to select it as source.
 
 .. _File metadata: http://docs.getpelican.com/en/stable/content.html#file-metadata
 .. _Getting Started with GitHub Pages: https://guides.github.com/features/pages/
