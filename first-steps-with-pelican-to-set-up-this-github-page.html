@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>First steps with Pelican to set up this GitHub Page</title>
+        <link rel="stylesheet" href="https://rotocki.github.io/theme/css/main.css" />
+        <link href="https://rotocki.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Accruing technical credit Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://rotocki.github.io/">Accruing technical credit </a></h1>
+                <nav><ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="https://rotocki.github.io/pages/about-me.html">About me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://rotocki.github.io/first-steps-with-pelican-to-set-up-this-github-page.html" rel="bookmark"
+           title="Permalink to First steps with Pelican to set up this GitHub Page">First steps with Pelican to set up this GitHub Page</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-07-14T16:20:00+02:00">
+                Published: niedz. 14 lipiec 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://rotocki.github.io/author/remik.html">Remik</a>
+        </address>
+<p>In <a href="https://rotocki.github.io/category/blog.html">Blog</a>.</p>
+<p>tags: <a href="https://rotocki.github.io/tag/pelican.html">pelican</a> </p>
+</footer><!-- /.post-info -->      <div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#making-first-steps-in-a-virtual-environment" id="id1">Making first steps in a virtual environment</a></li>
+<li><a class="reference internal" href="#creating-the-project-and-figuring-out-its-structure" id="id2">Creating the project and figuring out its structure</a></li>
+<li><a class="reference internal" href="#simplifying-serving-procedure-with-invoke-and-its-tasks" id="id3">Simplifying serving procedure with invoke and its tasks</a></li>
+<li><a class="reference internal" href="#uploading-the-page-to-github" id="id4">Uploading the page to GitHub</a></li>
+<li><a class="reference internal" href="#changing-github-page-s-source-to-a-publishing-branch" id="id5">Changing GitHub page's source to a publishing branch</a></li>
+</ul>
+</div>
+<div class="section" id="making-first-steps-in-a-virtual-environment">
+<h2><a class="toc-backref" href="#id1">Making first steps in a virtual environment</a></h2>
+<p>I've done a little bit of reading to see if it is possible to setup
+my own GitHub page without having to resort to Ruby/Jekyll since
+I'm much more comfortable with doing stuff in Python.</p>
+<p>As I'm trying to use a bit more restructuredText to eventually write
+all of my documentation for Python code in a syntax that is Sphinx-friendly,
+I wanted to have that option to write the content in rst files instead of
+plain HTML.</p>
+<p>Given the assumptions above, I decided to use Pelican and see how far
+will I get with it. First step was to install it and see how many other
+plugins and/or dependencies will I need to get the job done.</p>
+<p>The first thing to do is to install all the dependencies in a virtual
+environment so that if this experiment fails, I can just remove
+the folder with the environment in it instead of going through
+dependencies in my system and cleaning them one by one.</p>
+<p>As I've been installing a typical virtual environment, an idea came to my mind.
+I was about to create a project which focuses on doing one thing only while being run
+always in the same environment is the ideal definition of an application.
+Since there is a great tool to keep all dependencies for an application
+in a controlled fashion, I thought about managing it using <cite>pipenv</cite> instead.
+I've used it in the past for a bit but never really committed to it.
+Because this idea sounded like a good one, I decided to run with it:</p>
+<div class="highlight"><pre><span></span>pip install pipenv
+pipenv install pelican
+</pre></div>
+</div>
+<div class="section" id="creating-the-project-and-figuring-out-its-structure">
+<h2><a class="toc-backref" href="#id2">Creating the project and figuring out its structure</a></h2>
+<p>After installing Pelican in the virtual environment, I checked how to start
+the project rolling. Fortunately, there is a quickstart step similar to the one
+you can find in Sphinx.</p>
+<div class="highlight"><pre><span></span>pipenv run pelican-quickstart
+</pre></div>
+<p>I've configured the project in such a way that I customized the title,
+author and made sure that it correctly refers to my GitHub page.</p>
+<p>Once the quickstart was done, I looked at the structure of the project.
+I created a simple <strong>About me</strong> page under <tt class="docutils literal">content/pages/about.rst</tt>
+and this blog post under <tt class="docutils literal"><span class="pre">content/blog/first-steps-with-pelican-to-set-up-this-github-page.rst</span></tt>.
+I followed the typical <a class="reference external" href="http://docs.getpelican.com/en/stable/content.html#file-metadata">File metadata</a> structure for the blog post
+and a simplified version for <strong>About me</strong> page.</p>
+<p>After that everything should be simple, right?</p>
+<div class="highlight"><pre><span></span>pipenv run pelican
+</pre></div>
+<p>I've looked at the generated HTML files stored in output folder in project's default path.
+To my surprise, opening just the <cite>index.html</cite> file wasn't as pleasant as I expected,
+since all of the other static content like CSS were not collected by the browser.
+Opening checking the documentation, I've noticed that I was supposed to serve the pages
+on web server instead of just browsing them directly. Sounds logical. The immediate
+suggestion was to do it by moving to output directory and running HTTP server
+from Python 3's standard library:</p>
+<div class="highlight"><pre><span></span>/content $ python -m http.server
+</pre></div>
+<p>After that, I just opened my browser and checked the page served as <tt class="docutils literal">localhost:8000</tt></p>
+</div>
+<div class="section" id="simplifying-serving-procedure-with-invoke-and-its-tasks">
+<h2><a class="toc-backref" href="#id3">Simplifying serving procedure with invoke and its tasks</a></h2>
+<p>The page worked correctly but I was not satisfied with this approach as it seemed error-prone.
+First I needed to make sure that I'm inside a correct folder and then remember to invoke
+<cite>server</cite> module from <cite>http</cite> library. So I looked for another approach in the files autogenerated
+by pelican with quickstart procedure.</p>
+<p>Since I've worked a bit with <cite>invoke</cite> package and used fabfiles in the past,
+I immediately noticed <cite>tasks.py</cite> file in main directory of the project.
+After skimming through the code, I found <cite>build</cite> and <cite>serve</cite> tasks which would enable me
+to generate and serve output files without needing to think about platform/OS on which the tasks
+would have to be run on. This sounded great as I'm using Windows whenever I can and resort to
+Linux virtual machine only if I have to suffer the performance hit.</p>
+<p>To use this approach, I had to install <cite>invoke</cite> package:</p>
+<div class="highlight"><pre><span></span>pipenv install invoke
+</pre></div>
+<p>After that, the procedure to run invoke tasks was wonderfully simple:</p>
+<div class="highlight"><pre><span></span>pipenv run invoke build
+pipenv run invoke serve
+</pre></div>
+<p>Can we make it shorter? Sure! As this use case is probably one of the most frequently used
+there is already a <cite>reserve</cite> task prepared and because typing <cite>invoke</cite> is such a hassle,
+we can already use a shorthand <cite>inv</cite> to save the time needed to type <cite>oke</cite> at the end of it.</p>
+<div class="highlight"><pre><span></span>pipenv run inv reserve
+</pre></div>
+<p>Works as expected. How great is that, huh?</p>
+</div>
+<div class="section" id="uploading-the-page-to-github">
+<h2><a class="toc-backref" href="#id4">Uploading the page to GitHub</a></h2>
+<p>After all that hassle, it would be great to finally share this page with others.
+The creation process of a GitHub page is described in great detail in one of the official
+guides titled <a class="reference external" href="https://guides.github.com/features/pages/">Getting Started with GitHub Pages</a> so I'll save some time and skip it.</p>
+<p>Let's clone the remote repository in the main folder of our project:</p>
+<div class="highlight"><pre><span></span>git init
+git remote add origin git@github.com:rotocki/rotocki.github.io.git
+git fetch --all
+git checkout origin/master -b master
+</pre></div>
+<p>After doing that, we should be able to commit our changes on top of whatever
+we have autogenerated by GitHub during creation of the repository.</p>
+<div class="highlight"><pre><span></span>git add .
+git commit -m <span class="s2">&quot;Initial page.&quot;</span>
+git push
+</pre></div>
+<p>The project is now version controlled and stored on GitHub...
+but the pages are <strong>not</strong> visible! What is going on?</p>
+</div>
+<div class="section" id="changing-github-page-s-source-to-a-publishing-branch">
+<h2><a class="toc-backref" href="#id5">Changing GitHub page's source to a publishing branch</a></h2>
+<p>If we think for a moment about a possible root cause of this problem,
+we can quickly notice that we don't have an <cite>index.html</cite> file
+in the main folder of our project. Because of that, <cite>README.md</cite> file
+gets served as the <cite>index.html</cite> page instead.</p>
+<p>I went back to <cite>tasks.py</cite> file to see if there is another task that
+I can use out of the box and I found one called <cite>gh_pages</cite> which
+is documented as <em>Publish to GitHub Pages</em>. Jackpot? Looks like it
+but I need to understand what is this <cite>ghp-import</cite> command on which
+this task relies.</p>
+<p>The best way to understand is to check the official documentation
+stored under <a class="reference external" href="https://github.com/davisp/ghp-import">ghp-import GitHub page</a>. After going through the readme
+and making sure <em>Big Fat Warning</em> is understood, I wanted to make sure
+that <cite>gh-pages</cite> branch will be the one used by GitHub as the default one
+for serving content. This use case is so frequently used
+it has its own section in an article on GitHub Help:
+<a class="reference external" href="https://help.github.com/en/articles/configuring-a-publishing-source-for-github-pages#enabling-github-pages-to-publish-your-site-from-master-or-gh-pages">Enabling GitHub Pages to publish your site from master or gh-pages</a></p>
+<p>Unfortunately, this applies only to project pages and <strong>not</strong> personal
+GitHub pages. So we will need to store content in a non-master branch
+while our <cite>master</cite> branch will only contain the output in a way
+that can be easily presented to the viewer.</p>
+<p>First of all, let's change the branch:</p>
+<div class="highlight"><pre><span></span>git checkout -b content
+git push --set-upstream origin content
+</pre></div>
+<p>Now the default configuration will make sure that the output
+generated from the content stored in a private branch <cite>content</cite>
+will be version under <cite>master</cite> branch.</p>
+<p>Now I should be able to get away with invoking <cite>gh_pages</cite> task
+but first I have to install <cite>ghp-import</cite> as one of the dependencies:</p>
+<div class="highlight"><pre><span></span>pipenv install ghp-import
+</pre></div>
+<p>After that, I can publish my work:</p>
+<div class="highlight"><pre><span></span>pipenv run inv gh_pages
+</pre></div>
+<p>Nope. Error message: <tt class="docutils literal">No idea what 'gh_pages' is!</tt>
+There is a task in <cite>tasks.py</cite> but it cannot be found. Maybe <cite>invoke</cite>'s can help us?</p>
+<div class="highlight"><pre><span></span>pipenv run invoke
+</pre></div>
+<p>There seems to be <cite>-l</cite> parameter which should understand us what tasks
+are available and how we should call them. After running</p>
+<div class="highlight"><pre><span></span>pipenv run invoke -l
+</pre></div>
+<p>We get this:</p>
+<pre class="literal-block">
+Available tasks:
+
+    build        Build local version of site
+    clean        Remove generated files
+    gh-pages     Publish to GitHub Pages
+    preview      Build production version of site
+    publish      Publish to production via rsync
+    rebuild      `build` with the delete switch
+    regenerate   Automatically regenerate site upon file modification
+    reserve      `build`, then `serve`
+    serve        Serve site at http://localhost:8000/
+</pre>
+<p>Do you notice the difference? Underscore magically became a hyphen!
+Let's finish the task for today by invoking the <cite>gh-pages</cite> task!</p>
+<div class="highlight"><pre><span></span>pipenv run inv gh-pages
+</pre></div>
+<p>Since I'm running a Windows 10 machine, the current syntax does not
+get accepted and I have to rearrange the quotation marks to get it working.</p>
+<div class="highlight"><pre><span></span><span class="n">CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="c1"># Before: &quot;&#39;Publish site on {}&#39;&quot;</span>
+    <span class="c1"># After:</span>
+    <span class="s1">&#39;commit_message&#39;</span><span class="p">:</span> <span class="s2">&quot;&#39;Publish site on {}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()),</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+<p>After introducing this change, I was able to push the output to <cite>master</cite> branch
+and now you can read this article. Cheers!</p>
+</div>
+
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://rotocki.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
