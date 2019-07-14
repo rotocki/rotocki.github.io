@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 pelican = "*"
 invoke = "*"
+ghp-import = "*"
 
 [requires]
 python_version = "3.6"
