@@ -41,7 +41,9 @@
 <li><a class="reference internal" href="#creating-the-project-and-figuring-out-its-structure" id="id2">Creating the project and figuring out its structure</a></li>
 <li><a class="reference internal" href="#simplifying-serving-procedure-with-invoke-and-its-tasks" id="id3">Simplifying serving procedure with invoke and its tasks</a></li>
 <li><a class="reference internal" href="#uploading-the-page-to-github" id="id4">Uploading the page to GitHub</a></li>
-<li><a class="reference internal" href="#changing-github-page-s-source-to-a-publishing-branch" id="id5">Changing GitHub page's source to a publishing branch</a></li>
+<li><a class="reference internal" href="#rearranging-the-repository" id="id5">Rearranging the repository</a></li>
+<li><a class="reference internal" href="#publishing-the-page" id="id6">Publishing the page</a></li>
+<li><a class="reference internal" href="#making-sure-we-re-on-the-same-page-as-github" id="id7">Making sure we're on the same page as GitHub</a></li>
 </ul>
 </div>
 <div class="section" id="making-first-steps-in-a-virtual-environment">
@@ -145,8 +147,8 @@ git push
 <p>The project is now version controlled and stored on GitHub...
 but the pages are <strong>not</strong> visible! What is going on?</p>
 </div>
-<div class="section" id="changing-github-page-s-source-to-a-publishing-branch">
-<h2><a class="toc-backref" href="#id5">Changing GitHub page's source to a publishing branch</a></h2>
+<div class="section" id="rearranging-the-repository">
+<h2><a class="toc-backref" href="#id5">Rearranging the repository</a></h2>
 <p>If we think for a moment about a possible root cause of this problem,
 we can quickly notice that we don't have an <cite>index.html</cite> file
 in the main folder of our project. Because of that, <cite>README.md</cite> file
@@ -174,6 +176,9 @@ git push --set-upstream origin content
 <p>Now the default configuration will make sure that the output
 generated from the content stored in a private branch <cite>content</cite>
 will be version under <cite>master</cite> branch.</p>
+</div>
+<div class="section" id="publishing-the-page">
+<h2><a class="toc-backref" href="#id6">Publishing the page</a></h2>
 <p>Now I should be able to get away with invoking <cite>gh_pages</cite> task
 but first I have to install <cite>ghp-import</cite> as one of the dependencies:</p>
 <div class="highlight"><pre><span></span>pipenv install ghp-import
@@ -218,10 +223,16 @@ get accepted and I have to rearrange the quotation marks to get it working.</p>
 <span class="p">}</span>
 </pre></div>
 <p>After introducing this change, I was able to push the output to <cite>master</cite> branch
-but the page would still show <cite>README.md</cite> instead of the expected pages. I've done some reading...</p>
-<p># <a class="reference external" href="https://github.community/t5/GitHub-Pages/Github-Pages-are-not-published-after-following-the-documentation/td-p/18627_">Github Pages are not published after following the documentation</a>
-# <a class="reference external" href="https://www.docslikecode.com/articles/github-pages-python-sphinx/">Yes You Can Use GitHub Pages with Python Sphinx</a> - section <em>Add a .nojekyll file in the /docs directory</em>
-# <a class="reference external" href="https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/">Bypassing Jekyll on GitHub Pages</a></p>
+but the page would still show <cite>README.md</cite> instead of the expected pages.</p>
+</div>
+<div class="section" id="making-sure-we-re-on-the-same-page-as-github">
+<h2><a class="toc-backref" href="#id7">Making sure we're on the same page as GitHub</a></h2>
+<p>I've done some reading to understand the problem...</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.community/t5/GitHub-Pages/Github-Pages-are-not-published-after-following-the-documentation/td-p/18627_">Github Pages are not published after following the documentation</a></li>
+<li><a class="reference external" href="https://www.docslikecode.com/articles/github-pages-python-sphinx/">Yes You Can Use GitHub Pages with Python Sphinx</a> - section <em>Add a .nojekyll file in the /docs directory</em></li>
+<li><a class="reference external" href="https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/">Bypassing Jekyll on GitHub Pages</a></li>
+</ul>
 <p>... and understood that there might be a problem with the fact that GitHub assumes
 the pages were generated using Ruby/Jekyll and we need to inform the server
 that we're running something different. I added <cite>.nojekyll</cite> file in the main folder
