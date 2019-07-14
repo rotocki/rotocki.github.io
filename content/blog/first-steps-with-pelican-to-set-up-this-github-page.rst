@@ -187,66 +187,18 @@ First of all, let's change the branch:
     git checkout -b content
     git push --set-upstream origin content
 
-Now it all starts to make sense but let's be sure that our task to be invoked
-complies with the *Big Fat Warning* mentioned before.
+Now the default configuration will make sure that the output
+generated from the content stored in a private branch `content`
+will be version under `master` branch.
 
-.. code-block:: python
-
-    CONFIG = {
-        # Local path configuration (can be absolute or relative to tasks.py)
-        'deploy_path': 'output',
-        # Github Pages configuration
-        'github_pages_branch': 'master',
-        'commit_message': "'Publish site on {}'".format(datetime.date.today().isoformat()),
-        # Port for `serve`
-        'port': 8000,
-    }
-
-    ...
-
-    @task
-    def gh_pages(c):
-        """Publish to GitHub Pages"""
-        preview(c)
-        c.run('ghp-import -b {github_pages_branch} '
-            '-m {commit_message} '
-            '{deploy_path} -p'.format(**CONFIG))
-
-It seems that if we run this task with the default setting,
-we will get `master` branch as the one passed as `github_pages_branch`.
-That and the fact we still remember *Big Fat Warning* makes this a bit risky.
-
-
-To be on the safe side, I decided to change that setting from `master` to `gh-pages`
-instead.
-
-.. warning::
-
-    Make sure you've changed `github_pages_branch` parameter in `CONFIG` variable
-    defined in `tasks.py` file of main folder in the project to `gh-pages` instead!
-
-Final value of `CONFIG` should look like this:
-
-.. code-block:: python
-
-    CONFIG = {
-        # Local path configuration (can be absolute or relative to tasks.py)
-        'deploy_path': 'output',
-        # Github Pages configuration
-        'github_pages_branch': 'gh_pages',
-        'commit_message': "'Publish site on {}'".format(datetime.date.today().isoformat()),
-        # Port for `serve`
-        'port': 8000,
-    }
-
-Now I should be able to get away with invoking `gh_pages` task but first we have to install
-`ghp-import` as one of the dependencies:
+Now I should be able to get away with invoking `gh_pages` task 
+but first I have to install `ghp-import` as one of the dependencies:
 
 .. code-block:: shell
 
     pipenv install ghp-import
 
-After that, I can publish my work to `gh_pages` branch in Git:
+After that, I can publish my work:
 
 .. code-block:: shell
 
@@ -300,13 +252,8 @@ get accepted and I have to rearrange the quotation marks to get it working.
         ...
     }
 
-After introducing this change, I was able to push the content to `gh_pages` remote branch.
-The last thing is to change the default branch to be used by GitHub to publish the site
-as mentioned before on `Enabling GitHub Pages to publish your site from master or gh-pages`_.
-
-.. note::
-
-    I had to wait for `gh_pages` branch to become visible before being able to select it as source.
+After introducing this change, I was able to push the output to `master` branch
+and now you can read this article. Cheers!
 
 
 .. _File metadata: http://docs.getpelican.com/en/stable/content.html#file-metadata
