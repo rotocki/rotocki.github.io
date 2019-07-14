@@ -171,9 +171,21 @@ The best way to understand is to check the official documentation
 stored under `ghp-import GitHub page`_. After going through the readme
 and making sure *Big Fat Warning* is understood, I wanted to make sure
 that `gh-pages` branch will be the one used by GitHub as the default one
-for serving content. Fortunately, this use case is so frequently used
+for serving content. This use case is so frequently used
 it has its own section in an article on GitHub Help: 
 `Enabling GitHub Pages to publish your site from master or gh-pages`_
+
+Unfortunately, this applies only to project pages and **not** personal
+GitHub pages. So we will need to store content in a non-master branch
+while our `master` branch will only contain the output in a way
+that can be easily presented to the viewer.
+
+First of all, let's change the branch:
+
+.. code-block:: shell
+
+    git checkout -b content
+    git push --set-upstream origin content
 
 Now it all starts to make sense but let's be sure that our task to be invoked
 complies with the *Big Fat Warning* mentioned before.
@@ -203,6 +215,8 @@ complies with the *Big Fat Warning* mentioned before.
 It seems that if we run this task with the default setting,
 we will get `master` branch as the one passed as `github_pages_branch`.
 That and the fact we still remember *Big Fat Warning* makes this a bit risky.
+
+
 To be on the safe side, I decided to change that setting from `master` to `gh-pages`
 instead.
 
@@ -293,6 +307,7 @@ as mentioned before on `Enabling GitHub Pages to publish your site from master o
 .. note::
 
     I had to wait for `gh_pages` branch to become visible before being able to select it as source.
+
 
 .. _File metadata: http://docs.getpelican.com/en/stable/content.html#file-metadata
 .. _Getting Started with GitHub Pages: https://guides.github.com/features/pages/
