@@ -253,6 +253,16 @@ get accepted and I have to rearrange the quotation marks to get it working.
     }
 
 After introducing this change, I was able to push the output to `master` branch
+but the page would still show `README.md` instead of the expected pages. I've done some reading...
+
+# `Github Pages are not published after following the documentation`_
+# `Yes You Can Use GitHub Pages with Python Sphinx`_ - section *Add a .nojekyll file in the /docs directory*
+# `Bypassing Jekyll on GitHub Pages`_
+
+... and understood that there might be a problem with the fact that GitHub assumes
+the pages were generated using Ruby/Jekyll and we need to inform the server
+that we're running something different. I added `.nojekyll` file in the main folder
+of the project, committed the changes, pushed them to remote repository
 and now you can read this article. Cheers!
 
 
@@ -260,3 +270,6 @@ and now you can read this article. Cheers!
 .. _Getting Started with GitHub Pages: https://guides.github.com/features/pages/
 .. _ghp-import GitHub page: https://github.com/davisp/ghp-import
 .. _Enabling GitHub Pages to publish your site from master or gh-pages: https://help.github.com/en/articles/configuring-a-publishing-source-for-github-pages#enabling-github-pages-to-publish-your-site-from-master-or-gh-pages
+.. _Github Pages are not published after following the documentation: https://github.community/t5/GitHub-Pages/Github-Pages-are-not-published-after-following-the-documentation/td-p/18627_
+.. _Yes You Can Use GitHub Pages with Python Sphinx: https://www.docslikecode.com/articles/github-pages-python-sphinx/
+.. _Bypassing Jekyll on GitHub Pages: https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
